@@ -89,3 +89,124 @@ with [Premier Developer Support](https://zoom.us/docs/en-us/developer-support-pl
 
 Make sure to review [our documentation](https://developers.zoom.us/docs/meeting-sdk/linux/) as a reference when building
 with the Zoom Meeting SDK for Linux.
+
+
+### Setup Project Locally in Linux Dev 
+
+## 1. Clone the Repository
+
+```bash
+# Clone down this repository
+git clone git@github.com:zoom/meetingsdk-headless-linux-sample.git
+```
+
+## 2. Download the Zoom Linux SDK
+
+Download the latest version of the Zoom SDK for Linux from the Zoom Marketplace and place it in
+the [lib/zoomsdk](lib/zoomsdk) folder of this repository.
+
+## 3. Setup locally Ubuntu x64 Environment for development
+** Follow the Dockerfile instructions
+
+**3.0 Set SDK Files into lib/zoomsdk**
+
+Download the SDK from the website after 
+
+**3.1 Install libraries**
+
+
+    ```bash
+    sudo apt-get update  \
+        && sudo apt-get install -y \
+        build-essential \
+        ca-certificates \
+        cmake \
+        curl \
+        gdb \
+        git \
+        libdbus-1-3 \
+        libgbm1 \
+        libgl1-mesa-glx \
+        libglib2.0-0 \
+        libglib2.0-dev \
+        libssl-dev \
+        libx11-xcb1 \
+        libxcb-image0 \
+        libxcb-keysyms1 \
+        libxcb-randr0 \
+        libxcb-shape0 \
+        libxcb-shm0 \
+        libxcb-xfixes0 \
+        libxcb-xtest0 \
+        libxfixes3 \
+        pkgconf \
+        tar \
+        unzip \
+        zip
+    ```
+**3.2 Install ALSA libraries**
+
+
+    ```bash 
+    sudo apt-get install -y libasound2 libasound2-plugins alsa alsa-utils alsa-oss
+    ```
+
+**3.3 Install Pulseaudio**
+    
+    
+    ```bash
+    sudo apt-get install -y  pulseaudio pulseaudio-utils
+    ```
+
+**3.4 Copy the sample config file**
+
+```bash
+cp sample.config.toml config.toml
+```
+
+**3.5 Fill out the config.toml**
+
+Here, you can set any of the CLI options so that the bot has them available when it runs. Start by adding your Client ID and Client Secret in the relevant fields.
+
+**At a minimum, you need to provide an Client ID and Client Secret along with information about the meeting you would like to join.**
+
+You can either provide a Join URL, or a Meeting ID and Password.
+
+
+**3.5 Install [dependency manager vcpkg](https://vcpkg.io/en/)**
+    
+    
+    ```bash
+    git clone --depth 1 https://github.com/Microsoft/vcpkg.git \
+        && ./vcpkg/bootstrap-vcpkg.sh -disableMetrics \
+        && sudo ln -s /opt/vcpkg/vcpkg /usr/local/bin/vcpkg \
+        && vcpkg install vcpkg-cmake
+    ```
+
+**3.6 Run CMake build to prepare for building**
+
+
+    ```bash
+    cmake -B build -S . --preset debug
+    ```
+
+**3.7 Run Make to build makefiles in `./build`**
+
+    ```bash
+        cd build/
+        make
+        mv zoomsdk ../    # To move binary to the root of the project to take the configuration from .toml files!
+    ```
+
+**3.8 Ready to run !**
+
+## 4. Configure the Bot
+
+If you don't already have them, follow the section on how
+to [Get your Zoom Meeting SDK Credentials](#get-your-zoom-meeting-sdk-credentials).
+
+
+
+
+
+
